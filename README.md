@@ -27,35 +27,34 @@ Step13:Click start button and check the output
 ## THEORY:
 Matrix keypads are simply an extension to the simple tact switch inputs. They consists of keys interconnected in the shape of a matrix. Each key is a simple mechanical switch located at the crossing between the matrix rows and columns. When a key is pressed, its row and column form an electrical contact. The rows and columns can be connected to the pins of microcontroller ports. The big advantage of using a matrix keypad is that it allows to interface a large number of keys with a relatively small number of microcontroller pins. For example, a 16-key keypad requires only 8 (instead of 16, if interfaced individually) I/O pins of the microcontroller if organized into a 4 rows and 4 columns matrix. The circuit diagram for this experimental tutorial is shown below. It interconnects a 4×4 matrix keypad to PORTB of the PIC16F1827 microcontroller. The microcontroller runs at 500 KHz using the internal clock source. The PORTA pins drive a character LCD that displays the pressed key information.
 ## PROGRAM:
-int sensorPin = A0;</br> 
-int sensorValue = 0; </br> 
-void setup() </br> 
-{</br> 
-Serial.begin(9600); </br> 
-pinMode(13, OUTPUT);</br> 
-}</br> 
-void loop() </br> 
-{</br> 
-  sensorValue = analogRead(sensorPin);</br> 
-  Serial.print("OUTPUT:");</br> 
-  Serial.println(sensorValue); </br> 
-  delay(500);</br> 
-  if(sensorValue<=800)</br> 
-  {</br> 
-  digitalWrite(13, HIGH); </br>  
-  delay(5000);</br> 
-  }</br> 
-  else</br> 
-  {</br> 
-  digitalWrite(13, LOW);  </br> 
-  delay(5000);</br> 
-  }
-}
+#include<Keypad.h></br>
+const byte ROWS =4;</br>
+//four rows</br>
+const byte COLS =4;</br>
+//four columns</br>
+char keys[ROWS][COLS]={</br>
+{'7','8','9','A'},</br>
+{'4','5','6','B'},</br>
+{'1','2','3','C'},</br>
+{'*','0','#','D'}</br>
+};</br>
+byte rowPins[ROWS] ={2,3,4,5};</br>
+//connect to the row pinouts of the keypad </br>
+byte colPins[COLS] ={6,7,8,9};</br>
+//connect to the column pinouts of the keypad</br>
+
+Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS , COLS); </br>
+void setup() {</br>
+Serial.begin(9600);</br>
+}</br>
+void loop() {</br>
+char key = keypad.getKey();</br>
+if(key){ Serial.println(key);</br>
+}</br>
+}</br>
 ## CIRCUIT DIAGRAM:
-![image](https://github.com/TABARAKHUSSAIN9631/Keypad-Interfacing/assets/132323440/69e8f5d2-f027-4e0a-8974-bf5dc0d834a0)
-
+![image](https://github.com/AMANKUMAR2541/Keypad-Interfacing/assets/132323363/1508e705-84ba-4195-b0cd-a664c579f526)
 ## OUTPUT:
-![image](https://github.com/TABARAKHUSSAIN9631/Keypad-Interfacing/assets/132323440/78a1081d-daf8-4924-866d-14ba132eed01)
-
+![Untitled](https://github.com/AMANKUMAR2541/Keypad-Interfacing/assets/132323363/e6f30810-f0eb-4790-9eea-204783084e9d)
 ## RESULT:
 Thus the matrix keypad and seven segment display was interfaced with Arduino UNO controller to display the keypad value in seven segment display
